@@ -1,7 +1,7 @@
 # Module - BigTable
 [![COE](https://img.shields.io/badge/Created%20By-CCoE-blue)]()
 [![HCL](https://img.shields.io/badge/language-HCL-blueviolet)](https://www.terraform.io/)
-[![OCI](https://img.shields.io/badge/provider-OCI-red)](https://registry.terraform.io/providers/oracle/oci/latest)
+[![GCP](https://img.shields.io/badge/provider-GCP-green)](https://registry.terraform.io/providers/hashicorp/google/latest)
 
 Module developed to standardize the creation of BigTable.
 
@@ -19,7 +19,7 @@ Note: The `?ref=***` refers a tag on the git module repo.
 ## Default use case
 ```hcl
 module "<bigtablename>-<env>" {    
-  source = "git::https://https://github.com/danilomnds/terraform-gcp-module-bigtable?ref=v0.1.0"
+  source = "git::https://https://github.com/danilomnds/terraform-gcp-bigtable?ref=v0.1.0"
   project      = "project_id"
   name         = "bigtablename-fqa1"
   display_name = "bigtablename-fqa1"
@@ -48,7 +48,7 @@ output "instance_id" {
 ## Default use case plus RBAC
 ```hcl
 module "<bigtablename>-<env>" {    
-  source = "git::https://github.com/danilomnds/terraform-gcp-module-bigtable?ref=v0.1.0"  
+  source = "git::https://github.com/danilomnds/terraform-gcp-bigtable?ref=v0.1.0"  
   project      = "project_id"
   name         = "bigtablename-fqa1"
   display_name = "bigtablename-fqa1"

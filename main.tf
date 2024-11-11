@@ -32,7 +32,7 @@ resource "google_bigtable_instance" "instance" {
 }
 
 resource "google_project_iam_binding" "bigtable" {
-  count = length(var.members) == 0 ? 0 : 1
+  count   = length(var.members) == 0 ? 0 : 1
   project = var.project
   role    = "organizations/225850268505/roles/CustomBigtableUser"
   members = var.members
