@@ -24,16 +24,15 @@ resource "google_bigtable_instance" "instance" {
   force_destroy       = var.force_destroy
   deletion_protection = var.deletion_protection
   labels              = var.labels
-  #terraform_labels    = var.terraform_labels
-  #effective_labels    = var.effective_labels
   lifecycle {
     ignore_changes = []
   }
 }
 
-resource "google_project_iam_binding" "bigtable" {
-  count = length(var.members) == 0 ? 0 : 1
-  project = var.project
-  role    = "organizations/225850268505/roles/CustomBigtableUser"
-  members = var.members
+resource "google_project_iam_member" "bigtable" {
+  depends_on = [google_bigtable_instance.instance]
+  for_each   = { for group in var.members : group => group }
+  project    = var.project
+  role       = "organizations/225850268505/roles/CustomBigtableUser"
+  member    = each.value
 }

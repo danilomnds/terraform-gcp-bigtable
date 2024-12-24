@@ -1,7 +1,7 @@
 # Module - BigTable
 [![COE](https://img.shields.io/badge/Created%20By-CCoE-blue)]()
 [![HCL](https://img.shields.io/badge/language-HCL-blueviolet)](https://www.terraform.io/)
-[![OCI](https://img.shields.io/badge/provider-OCI-red)](https://registry.terraform.io/providers/oracle/oci/latest)
+[![GCP](https://img.shields.io/badge/provider-GCP-green)](https://registry.terraform.io/providers/hashicorp/google/latest)
 
 Module developed to standardize the creation of BigTable.
 
@@ -9,9 +9,9 @@ Module developed to standardize the creation of BigTable.
 
 | Module Version | Terraform Version | Google Version     |
 |----------------|-------------------| ------------------ |
-| v1.0.0         | v1.9.8            | 6.7.0              |
+| v0.1.0         | v1.10.3           | 6.14.1             |
 
-## Specifying a version
+## Specifying a version/
 
 To avoid that your code get the latest module version, you can define the `?ref=***` in the URL to point to a specific version.
 Note: The `?ref=***` refers a tag on the git module repo.
@@ -19,7 +19,7 @@ Note: The `?ref=***` refers a tag on the git module repo.
 ## Default use case
 ```hcl
 module "<bigtablename>-<env>" {    
-  source = "git::https://https://github.com/danilomnds/terraform-gcp-module-bigtable?ref=v0.1.0"
+  source = "git::https://https://github.com/danilomnds/terraform-gcp-bigtable?ref=v0.1.0"
   project      = "project_id"
   name         = "bigtablename-fqa1"
   display_name = "bigtablename-fqa1"
@@ -45,19 +45,32 @@ output "instance_id" {
 }
 ```
 
-## Default use case plus RBAC
+## Multicluster use case plus RBAC
 ```hcl
 module "<bigtablename>-<env>" {    
-  source = "git::https://github.com/danilomnds/terraform-gcp-module-bigtable?ref=v0.1.0"  
+  source = "git::https://github.com/danilomnds/terraform-gcp-bigtable?ref=v0.1.0"  
   project      = "project_id"
   name         = "bigtablename-fqa1"
   display_name = "bigtablename-fqa1"
   cluster = [{
-    cluster_id   = "bigtablename-fqa1-c1"
-    zone         = "southamerica-east1-a"
-    num_nodes    = 1
-    storage_type = "SSD"
-  }]  
+    cluster_id = "cluster1"
+    zone       = "southamerica-east1-a"
+    autoscaling_config = {
+      min_nodes      = 2
+      max_nodes      = 8
+      cpu_target     = 70
+      storage_target = 2560
+    }
+    storage_type   = "SSD"
+    },
+    {
+      cluster_id      = "cluster2"
+      zone            = "southamerica-east1-b"
+      num_nodes       = 2
+      #storage_target = 2560
+      storage_type    = "SSD"
+    }
+  ] 
   members = ["group:GRP_GCP-SYSTEM-PRD@timbrasil.com.br"]
   labels = {
     diretoria   = "ctio"

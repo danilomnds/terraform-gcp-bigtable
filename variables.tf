@@ -42,17 +42,6 @@ variable "labels" {
   type    = map(string)
   default = null
 }
-/*
-variable "terraform_labels" {
-  type    = map(string)
-  default = null
-}
-
-variable "effective_labels" {
-  type    = map(string)
-  default = null
-}*/
-
 
 variable "members" {
   type    = list(string)
